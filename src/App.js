@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+// src/App.js
+import React, { useContext } from 'react';
+import TaskList from './components/TaskList';
+import AddTaskForm from './components/AddTaskForm';
+import { TaskContext } from './components/TaskContext';
 import './App.css';
 
 function App() {
+  const { filterByDueDate } = useContext(TaskContext);
+
+  const handleDueDateChange = e => {
+    const dueDate = e.target.value === '' ? null : new Date(e.target.value);
+    filterByDueDate(dueDate);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Todo List</h1>
+      <AddTaskForm />
+      <label htmlFor="dueDate">Filter by Due Date:</label>
+      <input type="date" id="dueDate" onChange={handleDueDateChange} />
+      <TaskList />
     </div>
   );
 }
